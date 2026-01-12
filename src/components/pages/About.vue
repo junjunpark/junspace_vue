@@ -20,7 +20,12 @@ import Button from '../../components/common/Button.vue'
                     웹 퍼블리셔 <strong>박혜준</strong>입니다.
                 </h3>
                 <div class="btn-wrap">
-                    <Button/>
+                    <Button
+                        tag="a"
+                        href="https://naver.com"
+                        text="Notion 바로가기"
+                        class-name="primary lg"
+                        />
                 </div>
             </div>
         </div>

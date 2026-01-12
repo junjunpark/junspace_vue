@@ -3,14 +3,17 @@ import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
-  plugins: [vue()],
-  server: {
-    open: true,
-  },
-  base: '/junspace_vue/',
-  resolve: {
+    plugins: [vue()],
+    server: {
+        open: true,
+    },
+    base: '/junspace_vue/',
+    resolve: {
         alias: {
             '@': fileURLToPath(new URL('./src', import.meta.url)),
         },
+    },
+     css: {
+        devSourcemap: true
     }
 })
