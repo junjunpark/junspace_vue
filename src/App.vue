@@ -1,17 +1,38 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from './components/layout/Header.vue'
+import Layout from './components/layout/Layout.vue'
+import Footer from './components/layout/Footer.vue'
+import { initPortfolio } from '@/assets/script/script.js';
+import { initAnimations } from '@/assets/script/animation.js';
+import { onMounted, nextTick } from 'vue';
+
+onMounted(async () => {
+  await nextTick();
+  initPortfolio();
+  initAnimations();   // GSAP 애니메이션 초기화
+});
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite1 + Vue" />
+    <div id="skip" class="skip">
+        <a href="#header">헤더바로가기</a>
+        <a href="#container">본문바로가기</a>
+    </div>
+    <div class="wrapper">
+        <Header />
+        <!-- <div>
+            <a href="https://vite.dev" target="_blank">
+            <img src="/jlogo.svg" class="logo" alt="Vite logo" />
+            </a>
+            <a href="https://vuejs.org/" target="_blank">
+            <img src="/jlogo-w.svg" class="logo vue" alt="Vue logo" />
+            </a>
+        </div> -->
+        <Layout/>
+        <Footer/>
+    </div>
+    <!-- toast -->
+    <div class="toast-container" id="toastContainer" role="status" aria-live="polite" aria-atomic="true"></div>
 </template>
 
 <style scoped>
