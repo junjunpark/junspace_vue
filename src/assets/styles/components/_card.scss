@@ -1,0 +1,98 @@
+@use '../base/variables' as *;
+@use '../base/mixins' as *;
+
+.card-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: rem(24);
+    @include media {
+        grid-template-columns: 1fr;
+        gap: rem(12);
+    }
+}
+
+.card-box {
+    padding: rem(24);
+    border-radius: 12px;
+    background-color: $co-white;
+    box-shadow: 4px 4px 12px 4px rgba(0, 0, 0, 0.04);
+    border: 1px solid transparent;
+    transition: all 0.3s;
+    @include mediaPc {
+        &:hover {
+            box-shadow: 4px 4px 12px 4px rgba(0, 0, 0, 0.12);
+            transform:translateY(-10px);
+        }
+    }
+    &.is-link {
+        .card-img {
+            position: relative;
+            @include after {
+                position: absolute;
+                right: rem(8);
+                bottom: rem(8);
+                width: rem(34);
+                height: rem(34);
+                @include bg("icon-link.png", center center);
+                background-repeat: no-repeat;
+                background-size: 100%;
+                @include media {
+                    top: rem(4);
+                    right: rem(4);
+                    bottom: auto;
+                    width: rem(20);
+                    height: rem(20);
+                }
+            }
+            img {
+                transition: all 0.2s;
+            }
+        }
+        &:hover {
+            .card-img {
+                img {
+                    scale: (1.15);
+                }
+            }
+        }
+    }
+    @include media {
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        gap: 12px;
+        align-items: center;
+    }
+    .card-img {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+        border: 1px solid $line-color;
+        picture {
+            width: 100%;
+            height: 100%;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+    }
+    .card-desc {
+        @include mediaPc {
+            margin-top: rem(24);
+        }
+        .bod2 {
+            display: inline-block;
+        }
+        .info {
+            margin-top: rem(4);
+            .list-dot {
+                margin-top: rem(12);
+                padding-top: rem(8);
+                border-top: 1px dotted rgba($co-black, 0.1);
+            }
+        }
+    }
+}
+

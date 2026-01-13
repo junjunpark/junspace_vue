@@ -1,0 +1,14 @@
+
+<template>
+
+<footer id="footer" class="footer">
+    <div class="inner">
+        <p class="body2">Designed & Built by HYEJUNPARK</p>
+    </div>
+    <button type="button" id="gotop" class="gotoTop">
+        <span>TOP</span>
+    </button>
+</footer>
+
+</template>
+
