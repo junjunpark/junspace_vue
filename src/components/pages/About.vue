@@ -22,7 +22,7 @@ import Button from '../../components/common/Button.vue'
                 <div class="btn-wrap">
                     <Button
                         tag="a"
-                        href="https://naver.com"
+                        href="https://m.site.naver.com/1XPa9"
                         text="Notion 바로가기"
                         class-name="primary lg"
                         />

@@ -13,10 +13,8 @@ import logo from '@/assets/images/jlogo.svg'
         </h1>
         <nav class="nav" id="nav">
             <ul class="gnb">
-                <li class="active"><a href="#">HOME</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Work</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><router-link to="/">Home</router-link></li>
+                <li><router-link to="/work">Work</router-link></li>
             </ul>
         </nav>
         <button class="nav-toggle-btn" aria-expanded="false" aria-controls="nav">

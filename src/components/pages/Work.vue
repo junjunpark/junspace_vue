@@ -1,7 +1,44 @@
 <script setup>
 import Card from '../features/Card.vue'
-import Button from '../common/Button.vue';
+import Button from '../common/Button.vue'
+import { onMounted, nextTick } from 'vue'
 
+onMounted(async () => {
+  await nextTick()
+
+  // Work 페이지의 탭 초기화
+  const tabContainers = document.querySelectorAll('.tab')
+
+  tabContainers.forEach(container => {
+    const tabBtns = container.querySelectorAll('.tab-btn')
+    const cards = container.querySelectorAll('.card-box')
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const filter = this.getAttribute('data-filter')
+
+        tabBtns.forEach(b => {
+          b.classList.remove('active')
+          b.setAttribute('aria-selected', 'false')
+        })
+        this.classList.add('active')
+        this.setAttribute('aria-selected', 'true')
+
+        cards.forEach(card => {
+          const category = card.getAttribute('data-category')
+
+          if (filter === '*' || category === filter) {
+            card.classList.remove('hidden')
+            card.removeAttribute('aria-hidden')
+          } else {
+            card.classList.add('hidden')
+            card.setAttribute('aria-hidden', 'true')
+          }
+        })
+      })
+    })
+  })
+})
 </script>
 
 <template>

@@ -1,7 +1,13 @@
 <script setup>
 import Button from '../../components/common/Button.vue'
 import About from '../../components/pages/About.vue'
-import Work from '../../components/pages/Work.vue'
+import { initAnimations } from '@/assets/script/animation.js';
+import { onMounted, nextTick } from 'vue';
+
+onMounted(async () => {
+  await nextTick()
+  initAnimations() // GSAP 애니메이션 초기화
+})
 </script>
 
 
@@ -24,7 +30,6 @@ import Work from '../../components/pages/Work.vue'
     </section>
 
     <About/>
-    <Work/>
 
     <section class="section sec04">
         <div class="section-inner">
