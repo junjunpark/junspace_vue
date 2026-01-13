@@ -58,6 +58,9 @@
                     &:hover {
                         --nav-color: #{$co-point};
                     }
+                    &.router-link-active {
+                        --nav-color: #{$primary};
+                    }
                 }
 
                 &.active {

@@ -4,9 +4,6 @@ export function initPortfolio() {
 // 전역 변수 및 DOM 요소
 // ============================================
 const header = document.getElementById('header');
-const nav = document.getElementById('nav');
-const navToggleBtn = document.querySelector('.nav-toggle-btn');
-const navToggleText = navToggleBtn?.querySelector('.sr-only');
 const gotopBtn = document.getElementById('gotop');
 
 // header placeholder 생성
@@ -44,7 +41,7 @@ async function copyToClipboard(text) {
     }
 }
 
-document.addEventListener('click', async (e) => {
+const emailClickHandler = async (e) => {
     const copyBtn = e.target.closest('[data-email]');
     if (!copyBtn) return;
     const email = copyBtn.dataset.email;
@@ -61,7 +58,9 @@ document.addEventListener('click', async (e) => {
     } else {
         showToast('다시 한번 클릭해 주세요.', 'error', 4000);
     }
-});
+};
+
+document.addEventListener('click', emailClickHandler);
 
 // ============================================
 // Toast 알림
@@ -111,29 +110,47 @@ function hideToast(toast) {
 // ============================================
 // 네비게이션 토글
 // ============================================
-    if (nav && navToggleBtn) {
-    navToggleBtn.addEventListener('click', () => {
-        const isExpanded = navToggleBtn.getAttribute('aria-expanded') === 'true';
-        const nextIsExpanded = !isExpanded;
+const nav = document.getElementById('nav');
+const navToggleBtn = document.querySelector('.nav-toggle-btn');
+const navToggleText = navToggleBtn?.querySelector('.sr-only');
+const gnbLinks = document.querySelectorAll('.gnb a');
 
-        navToggleBtn.setAttribute('aria-expanded', String(nextIsExpanded));
-        nav.classList.toggle('active', nextIsExpanded);
+// 핸들러 함수를 별도로 정의
+const handleToggle = () => {
+    const isExpanded = navToggleBtn.getAttribute('aria-expanded') === 'true';
+    const nextIsExpanded = !isExpanded;
 
-        if (nextIsExpanded) {
-            // 메뉴 열기
-            nav.removeAttribute('inert');
+    navToggleBtn.setAttribute('aria-expanded', String(nextIsExpanded));
+    nav.classList.toggle('active', nextIsExpanded);
 
-            lockedScrollY = window.scrollY;
-            document.body.classList.add('scroll-lock');
-            document.body.style.top = `-${lockedScrollY}px`;
+    if (nextIsExpanded) {
+        nav.removeAttribute('inert');
+        lockedScrollY = window.scrollY;
+        document.body.classList.add('scroll-lock');
+        document.body.style.top = `-${lockedScrollY}px`;
 
-            updateActiveNav(lockedScrollY);
-
-            if (navToggleText) {
+        if (navToggleText) {
             navToggleText.textContent = '메뉴 닫기';
-            }
-        } else {
-        // 메뉴 닫기
+        }
+    } else {
+        nav.setAttribute('inert', '');
+        document.body.classList.remove('scroll-lock');
+        document.body.style.top = '';
+
+        requestAnimationFrame(() => {
+            window.scrollTo(0, lockedScrollY);
+        });
+
+        if (navToggleText) {
+            navToggleText.textContent = '메뉴 열기';
+        }
+    }
+};
+
+const handleLinkClick = () => {
+    if (nav && nav.classList.contains('active')) {
+        navToggleBtn.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('active');
         nav.setAttribute('inert', '');
 
         document.body.classList.remove('scroll-lock');
@@ -141,131 +158,28 @@ function hideToast(toast) {
 
         requestAnimationFrame(() => {
             window.scrollTo(0, lockedScrollY);
-            handleScroll();
         });
 
         if (navToggleText) {
             navToggleText.textContent = '메뉴 열기';
         }
-        }
+    }
+};
+
+if (nav && navToggleBtn) {
+    // 기존 리스너 제거 후 새로 등록
+    navToggleBtn.removeEventListener('click', handleToggle);
+    navToggleBtn.addEventListener('click', handleToggle);
+
+    gnbLinks.forEach(link => {
+        link.removeEventListener('click', handleLinkClick);
+        link.addEventListener('click', handleLinkClick);
     });
 }
 
 // ============================================
-// 스크롤 이벤트 핸들러
+// Tab 영역
 // ============================================
-function handleScroll() {
-    const y = window.scrollY;
-
-    // Top 버튼 표시/숨김
-    if (gotopBtn) {
-        gotopBtn.style.display = y > 200 ? 'inline-flex' : 'none';
-    }
-
-    const h = header?.offsetHeight || 0;
-
-    if (y > 0) {
-        header?.classList.add('fixed');
-        if (headerPlaceholder) {
-            headerPlaceholder.style.height = h + 'px';
-        }
-    } else {
-        header?.classList.remove('fixed');
-        if (headerPlaceholder) {
-            headerPlaceholder.style.height = '0px';
-        }
-    }
-
-    // 네비가 닫혀있을 때만 active 업데이트
-    if (!document.body.classList.contains('scroll-lock')) {
-        updateActiveNav();
-        realDocumentHeight = document.documentElement.scrollHeight;
-    }
-}
-
-handleScroll();
-window.addEventListener('scroll', handleScroll);
-
-// ============================================
-// GNB Active 업데이트 (통합)
-// ============================================
-function updateActiveNav(scrollY = window.scrollY) {
-    const sections = document.querySelectorAll('.section');
-    const windowHeight = window.innerHeight;
-    const documentHeight = realDocumentHeight;
-    const headerHeight = header?.offsetHeight || 0;
-
-    let currentIndex = 0;
-
-    if (scrollY < 100) { // 맨 위면 첫 번째
-        currentIndex = 0;
-    } else if (scrollY + windowHeight >= documentHeight - 50) { // 페이지 최하단 근처면 마지막 섹션
-        currentIndex = sections.length - 1;
-    } else { // 각 섹션의 시작 지점 기준으로 판단
-        sections.forEach((section, index) => {
-            const sectionTop = section.offsetTop;
-            const offset = headerHeight + 50;
-
-            if (scrollY >= sectionTop - offset) {
-                currentIndex = index;
-            }
-        });
-    }
-
-    // active 클래스 업데이트
-    const gnbItems = document.querySelectorAll('.gnb li');
-    gnbItems.forEach((item, index) => {
-        item.classList.toggle('active', index === currentIndex);
-    });
-}
-
-// ============================================
-// GNB 클릭 시 섹션 스크롤
-// ============================================
-const gnbLinks = document.querySelectorAll('.gnb a');
-
-if (gnbLinks.length > 0) {
-    gnbLinks.forEach((link, index) => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            const sections = document.querySelectorAll('.section');
-            const targetSection = sections[index];
-
-            // 모바일 네비 열려있으면 닫기
-            if (nav?.classList.contains('active')) {
-                navToggleBtn?.click();
-
-                // 네비 닫힌 후 스크롤 이동
-                setTimeout(() => {
-                    scrollToSection(targetSection, index);
-                }, 100);
-            } else {
-                scrollToSection(targetSection, index);
-            }
-        });
-    });
-}
-
-function scrollToSection(section, index) {
-    if (!section) return;
-
-    const headerHeight = header?.offsetHeight || 0;
-    let targetPosition;
-
-    if (index === 0) {
-        targetPosition = 0;
-    } else {
-        targetPosition = section.offsetTop - headerHeight;
-    }
-
-    window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-    });
-}
-
-// tab 영역
 const tabContainers = document.querySelectorAll('.tab');
 tabContainers.forEach(container => {
     const tabBtns = container.querySelectorAll('.tab-btn');
@@ -314,9 +228,9 @@ if (gotopBtn) {
 // ============================================
 // 윈도우 리사이즈
 // ============================================
-window.addEventListener('resize', () => {
+const handleResize = () => {
     if (!document.body.classList.contains('scroll-lock')) {
-    realDocumentHeight = document.documentElement.scrollHeight;
+        realDocumentHeight = document.documentElement.scrollHeight;
     }
 
     const isMobile = window.innerWidth < 768;
@@ -337,9 +251,24 @@ window.addEventListener('resize', () => {
             document.body.classList.remove('scroll-lock');
             document.body.style.top = '';
             window.scrollTo(0, lockedScrollY);
-            handleScroll();
         }
     }
-});
+};
+
+window.addEventListener('resize', handleResize);
+
+// ============================================
+// 클린업 함수 반환
+// ============================================
+return () => {
+    if (navToggleBtn) {
+        navToggleBtn.removeEventListener('click', handleToggle);
+    }
+    gnbLinks.forEach(link => {
+        link.removeEventListener('click', handleLinkClick);
+    });
+    window.removeEventListener('resize', handleResize);
+    document.removeEventListener('click', emailClickHandler);
+};
 
 }
