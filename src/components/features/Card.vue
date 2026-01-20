@@ -63,7 +63,7 @@ function resolveImg(path) {
         <h4 class="h3">{{ item.title }}</h4>
         <div class="info">
           <span class="body2">{{ item.period }}</span>
-          <ul class="list-dot">
+          <ul class="list-tag">
             <li v-for="(desc, j) in item.descriptions" :key="j">
               {{ desc }}
             </li>
