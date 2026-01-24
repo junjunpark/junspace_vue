@@ -1,4 +1,205 @@
-:root {
+/* fonts import */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --content-inner: 1200px;
+        --side-padding: 20px;
+        /* --text-default: #303030;
+        --text-muted: #777;
+        --text-weak: #999; */
+        /* --list-dot-font-size: theme('fontSize.fs-14'); */
+        /* --hash-bg: #f5f5f5; */
+    }
+    body {
+        font-family: "Noto Sans KR", "Malgun Gothic", "Dotum", sans-serif;
+        font-size: 14px;
+        letter-spacing: -0.05em;
+        line-height: 1.2;
+        @apply text-text;
+    }
+    i, em {
+        font-style: normal;
+    }
+    em {
+        font-weight: 600;
+    }
+    /* accessibility - skip navigation */
+    #skip {
+        position: fixed;
+        z-index: 999999;
+    }
+
+    #skip a {
+        font-size: 16px;
+        position: absolute;
+        top: -100px;
+        left: 0;
+        display: flex;
+        width: 100vw;
+        padding: 5px 0;
+        opacity: 0;
+        color: #fff;
+        background-color: #000;
+        justify-content: center;
+    }
+    #skip a:focus {
+        top: 0;
+        opacity: 1;
+    }
+}
+
+@layer components {
+    /* List with dot bullets */
+    .list-dot {
+        @apply list-none space-y-2;
+    }
+    .list-dot > li {
+        font-size: theme('fontSize.fs-14');
+        color: theme('colors.text.muted');
+        @apply relative pl-2 leading-relaxed;
+    }
+
+    .list-dot > li::before {
+        content: '';
+        background-color: var(--text-muted);
+        @apply absolute left-0 top-2.5 block h-[3px] w-[3px] rounded-full;
+    }
+
+    /* List with tag style */
+    .list-tag {
+        @apply flex flex-wrap items-center justify-start -mt-1 -ml-1 pt-2;
+    }
+    .list-tag > li {
+        font-size: theme('fontSize.fs-12');
+        color: theme('colors.text.weak');
+        background-color: theme('colors.bg.hash');
+        @apply inline-flex items-center justify-center mt-1 ml-1 px-1 py-1 rounded;
+    }
+.btn {
+
+    /* CSS Variables */
+    --btn-pd: 6px;
+    --btn-lh: 1.5;
+
+    /* Base Styles */
+    @apply inline-flex justify-center items-center gap-1.5;
+    @apply border border-primary rounded-full;
+    @apply bg-primary text-white; /* Primary 기본 스타일 */
+    @apply font-medium transition-all duration-300;
+    @apply cursor-pointer;
+
+    border-radius: calc(var(--btn-pd) + 1rem * var(--btn-lh) / 2);
+    padding: var(--btn-pd) 16px;
+    font-size: 0.875rem;
+    line-height: var(--btn-lh);
+}
+
+    /* Disabled State */
+        .btn:disabled,
+        .btn[data-disabled="true"] {
+        @apply cursor-default bg-text-weak text-text border-text-weak;
+    }
+
+    /* Type: Primary */
+        .btn[data-type="primary"]:not(:disabled):not([data-disabled="true"]):hover {
+        @apply bg-white text-primary;
+    }
+
+    /* Type: Line */
+        .btn[data-type="line"] {
+        @apply bg-transparent text-primary border-primary; /* 텍스트 primary로 수정 */
+    }
+
+    .btn[data-type="line"]:not(:disabled):not([data-disabled="true"]):hover {
+        @apply bg-white;
+    }
+
+    /* Type: Gray */
+    .btn[data-type="gray"] {
+        @apply bg-tab-bg text-tab-text border-tab-bg;
+    }
+
+    .btn[data-type="gray"]:disabled,
+    .btn[data-type="gray"][data-disabled="true"] {
+        @apply bg-text-weak text-text border-text-weak;
+    }
+
+    .btn[data-type="gray"][data-active="true"] {
+        @apply bg-primary text-white border-primary;
+    }
+
+    /* Size: Small */
+    .btn[data-size="sm"] {
+        --btn-pd: 4px;
+        padding-left: 12px;
+        padding-right: 12px;
+        @apply text-sm;
+    }
+
+    /* Size: Large */
+    .btn[data-size="lg"] {
+        --btn-pd: 12px;
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    /* Icon Only Button */
+    .btn[data-icon-only="true"] {
+        padding: var(--btn-pd);
+        aspect-ratio: 1;
+    }
+    .btn[data-icon-only="true"]:not([data-size]) {
+        @apply w-9 h-9;
+    }
+    .btn[data-icon-only="true"][data-size="sm"] {
+        @apply w-7 h-7;
+    }
+    .btn[data-icon-only="true"][data-size="lg"] {
+        @apply w-12 h-12;
+    }
+}
+
+@layer utilities {
+/* padding: safe-area + (optional) offset */
+    .safe-px {
+        padding-left: calc(env(safe-area-inset-left, 0px) + var(--safe-px, 0px));
+        padding-right: calc(env(safe-area-inset-right, 0px) + var(--safe-px, 0px));
+    }
+
+    .safe-pt {
+        padding-top: calc(env(safe-area-inset-top, 0px) + var(--safe-pt, 0px));
+    }
+
+    .safe-pb {
+        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--safe-pb, 0px));
+    }
+
+    /* position: safe-area + (optional) offset */
+    .safe-top {
+        top: calc(env(safe-area-inset-top, 0px) + var(--safe-top, 0px));
+    }
+
+    .safe-bottom {
+        bottom: calc(env(safe-area-inset-bottom, 0px) + var(--safe-bottom, 0px));
+    }
+
+    /* inner */
+    .inner {
+        max-width: calc(var(--content-inner, 1200px) + (var(--side-padding, 20px) * 2));
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: calc(env(safe-area-inset-left, 0px) + var(--side-padding, 20px));
+        padding-right: calc(env(safe-area-inset-right, 0px) + var(--side-padding, 20px));
+    }
+}
+
+/* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -76,4 +277,4 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
+} */

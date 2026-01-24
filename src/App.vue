@@ -1,12 +1,12 @@
 <script setup>
 import Header from './components/layout/Header.vue'
 import Footer from './components/layout/Footer.vue'
-import { initPortfolio } from '@/assets/script/script.js';
+//import { initPortfolio } from '@/assets/script/script.js';
 import { onMounted, nextTick } from 'vue';
 
 onMounted(async () => {
   await nextTick();
-   initPortfolio();
+  // initPortfolio();
 });
 </script>
 

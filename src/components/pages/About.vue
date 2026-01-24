@@ -5,33 +5,37 @@ import Button from '../../components/common/Button.vue'
 </script>
 
 <template>
-<section class="section sec02">
-    <div class="section-inner">
-        <h2 class="h2">ABOUT ME</h2>
-        <div class="grid profile">
-            <div class="profile-img">
-                <img :src="profileImg" alt="profile img" />
+<section class="overflow-x-hidden py-14 md:py-24">
+    <div class="inner">
+        <h2 class="text-h1 pb-6 font-blacksans font-bold">ABOUT ME</h2>
+        <div class="grid
+            pb-6
+            md:grid-cols-2
+            ">
+            <div class="flex just justify-center items-center mx-auto max-w-[15rem]">
+                <img :src="profileImg" alt="profile img" class="w-full" />
             </div>
-            <div class="profile-box">
-                <h3 class="profile-title">
+            <div class="">
+                <h3 class="text-h2 leading-normal">
                     안녕하세요!😀<br>
                     <em>차분함</em>과 <em>꾸준함</em>을 바탕으로<br>
                     <em>구조를 이해하고 탐구</em>하는<br>
                     웹 퍼블리셔 <strong>박혜준</strong>입니다.
                 </h3>
-                <div class="btn-wrap">
+                <div class="mt-4 flex just justify-start items-center flex-wrap">
                     <Button
                         tag="a"
                         href="https://m.site.naver.com/1XPa9"
                         text="Notion 바로가기"
-                        class-name="primary lg"
-                        />
+                        variant="primary"
+                        size="lg"
+                    />
                 </div>
             </div>
         </div>
-        <div class="grid">
-            <div class="about-box split">
-                <h3 class="h3">SKILL & TOOL</h3>
+        <div class="grid md:grid-cols-2">
+            <div class="split mt-6">
+                <h3 class="mb-4 text-h3 font-bold">SKILL & TOOL</h3>
                 <ul class="list-dot">
                     <li>HTML5 시맨틱 마크업 및 JavaScript 라이브러리 활용</li>
                     <li>CSS·SCSS 활용, 반응형·적응형 퍼블리싱</li>
@@ -42,8 +46,8 @@ import Button from '../../components/common/Button.vue'
                     <li>Figma, Zeplin, Adobe XD 디자인 시안 확인 및 협업</li>
                 </ul>
             </div>
-            <div class="about-box split">
-                <h3 class="h3">Certifications</h3>
+            <div class="split mt-6">
+                <h3 class="mb-4 text-h3 font-bold">Certifications</h3>
                 <ul class="list-dot">
                     <li>컴퓨터활용능력 2급 (2024.02)</li>
                     <li>GTQ 일러스트 1급 (2018.03)</li>
