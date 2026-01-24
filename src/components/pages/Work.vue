@@ -1,70 +1,75 @@
 <script setup>
 import Card from '../features/Card.vue'
 import Button from '../common/Button.vue'
-import { onMounted, nextTick } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 
-onMounted(async () => {
-  await nextTick()
+const activeFilter = ref('*')
 
-  // Work 페이지의 탭 초기화
-  const tabContainers = document.querySelectorAll('.tab')
+const handleFilterClick = (filter) => {
+    activeFilter.value = filter
 
-  tabContainers.forEach(container => {
-    const tabBtns = container.querySelectorAll('.tab-btn')
-    const cards = container.querySelectorAll('.card-box')
+    // 카드 필터링
+    const cards = document.querySelectorAll('.card-box')
+    cards.forEach(card => {
+        const category = card.getAttribute('data-category')
 
-    tabBtns.forEach(btn => {
-      btn.addEventListener('click', function() {
-        const filter = this.getAttribute('data-filter')
-
-        tabBtns.forEach(b => {
-          b.classList.remove('active')
-          b.setAttribute('aria-selected', 'false')
-        })
-        this.classList.add('active')
-        this.setAttribute('aria-selected', 'true')
-
-        cards.forEach(card => {
-          const category = card.getAttribute('data-category')
-
-          if (filter === '*' || category === filter) {
+        if (filter === '*' || category === filter) {
             card.classList.remove('hidden')
             card.removeAttribute('aria-hidden')
-          } else {
+        } else {
             card.classList.add('hidden')
             card.setAttribute('aria-hidden', 'true')
-          }
-        })
-      })
+        }
     })
-  })
+}
+
+onMounted(async () => {
+    await nextTick()
+    handleFilterClick('*')
 })
 </script>
 
 <template>
-
-<section class="section sec03" >
-    <div class="section-inner">
-        <h2 class="h2">WORK</h2>
+<section class="py-14 md:py-24 bg-bg">
+    <div class="inner">
+        <h2 class="text-h1 pb-6 font-blacksans font-bold">WORK</h2>
         <div class="tab">
-            <div class="tab-btns btn-wrap" role="tablist" aria-label="category tab">
+            <div class="tab-btns btn-wrap flex flex-wrap gap-2 mb-6" role="tablist" aria-label="category tab">
                 <Button
-                text="전체"
-                class-name="sm gray tab-btn active"
-                :data-attrs="{ filter: '*' }"
-                :aria-attrs="{ selected: 'true', controls: 'panel-all' }"
+                    text="전체"
+                    variant="gray"
+                    size="sm"
+                    :active="activeFilter === '*'"
+                    :data-attrs="{ filter: '*' }"
+                    :aria-attrs="{
+                        selected: activeFilter === '*' ? 'true' : 'false',
+                        controls: 'panel-all'
+                    }"
+                    @click="handleFilterClick('*')"
                 />
                 <Button
-                text="반응형"
-                class-name="sm gray tab-btn"
-                :data-attrs="{ filter: 'cate1' }"
-                :aria-attrs="{ selected: 'false', controls: 'panel-cate1' }"
+                    text="반응형"
+                    variant="gray"
+                    size="sm"
+                    :active="activeFilter === 'cate1'"
+                    :data-attrs="{ filter: 'cate1' }"
+                    :aria-attrs="{
+                        selected: activeFilter === 'cate1' ? 'true' : 'false',
+                        controls: 'panel-cate1'
+                    }"
+                    @click="handleFilterClick('cate1')"
                 />
                 <Button
-                text="웹·모바일"
-                class-name="sm gray tab-btn"
-                :data-attrs="{ filter: 'cate2' }"
-                :aria-attrs="{ selected: 'false', controls: 'panel-cate2' }"
+                    text="웹·모바일"
+                    variant="gray"
+                    size="sm"
+                    :active="activeFilter === 'cate2'"
+                    :data-attrs="{ filter: 'cate2' }"
+                    :aria-attrs="{
+                        selected: activeFilter === 'cate2' ? 'true' : 'false',
+                        controls: 'panel-cate2'
+                    }"
+                    @click="handleFilterClick('cate2')"
                 />
             </div>
             <div class="tab-panel" role="tabpanel" aria-labelledby="tab-all">
@@ -73,12 +78,6 @@ onMounted(async () => {
                 <!-- // project list -->
             </div>
         </div>
-
     </div>
 </section>
-
-
-
-
-
 </template>
