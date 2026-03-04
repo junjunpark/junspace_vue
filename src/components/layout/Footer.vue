@@ -27,9 +27,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-<footer class="bg-white pt-5 safe-pb" style="--safe-pb: 20px">
-    <div class="inner bg-white flex items-center justify-center">
-        <p class="text-fs-12 text-gray-400">Designed & Built by </p>
+<footer class="pt-5 bg-white safe-pb" style="--safe-pb: 20px">
+    <div class="flex items-center justify-center bg-white inner">
+        <p class="text-gray-400 text-fs-12">Designed & Built by HYEJUNPARK</p>
     </div>
 
     <button

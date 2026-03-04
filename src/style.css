@@ -57,7 +57,7 @@
 @layer components {
     /* List with dot bullets */
     .list-dot {
-        @apply list-none space-y-2;
+        @apply space-y-2 list-none;
     }
     .list-dot > li {
         font-size: theme('fontSize.fs-14');
@@ -67,19 +67,19 @@
 
     .list-dot > li::before {
         content: '';
-        background-color: var(--text-muted);
+        background-color: theme('colors.text.muted');
         @apply absolute left-0 top-2.5 block h-[3px] w-[3px] rounded-full;
     }
 
     /* List with tag style */
     .list-tag {
-        @apply flex flex-wrap items-center justify-start -mt-1 -ml-1 pt-2;
+        @apply flex flex-wrap items-center justify-start pt-2 -mt-1 -ml-1;
     }
     .list-tag > li {
         font-size: theme('fontSize.fs-12');
         color: theme('colors.text.weak');
         background-color: theme('colors.bg.hash');
-        @apply inline-flex items-center justify-center mt-1 ml-1 px-1 py-1 rounded;
+        @apply inline-flex items-center justify-center px-1 py-1 mt-1 ml-1 rounded;
     }
 .btn {
 
@@ -89,8 +89,8 @@
 
     /* Base Styles */
     @apply inline-flex justify-center items-center gap-1.5;
-    @apply border border-primary rounded-full;
-    @apply bg-primary text-white; /* Primary 기본 스타일 */
+    @apply border rounded-full border-primary;
+    @apply text-white bg-primary; /* Primary 기본 스타일 */
     @apply font-medium transition-all duration-300;
     @apply cursor-pointer;
 
@@ -131,7 +131,7 @@
     }
 
     .btn[data-type="gray"][data-active="true"] {
-        @apply bg-primary text-white border-primary;
+        @apply text-white bg-primary border-primary;
     }
 
     /* Size: Small */
