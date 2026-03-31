@@ -34,11 +34,9 @@ onUnmounted(() => {
         pb-3
         h-16 md:h-20">
 
-        <h1 id="logo" class="logo">
-            <a href="/" class="logo">
-                <img :src="logo" alt="JUN Portfolio" class="h-[30px] md:h-[40px] w-auto">
-            </a>
-        </h1>
+        <RouterLink to="/" class="logo">
+            <img :src="logo" alt="JUN Portfolio" class="h-[30px] md:h-[40px] w-auto">
+        </RouterLink>
 
         <nav id="nav" class="ml-auto">
             <ul class="gnb flex items-center justify-end text-h3 font-medium [&>li:not(:first-child)]:ml-10">
@@ -51,7 +49,7 @@ onUnmounted(() => {
             </ul>
         </nav>
 
-        <button class="md:hidden ml-4" aria-expanded="false" aria-controls="nav">
+        <button class="ml-4 md:hidden" aria-expanded="false" aria-controls="nav">
             <span class="sr-only">메뉴 열기</span>
         </button>
     </div>
